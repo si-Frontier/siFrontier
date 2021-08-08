@@ -1,15 +1,30 @@
 package com.example.trip_for_everyone;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity /*implements View.OnKeyListener*/{
+    private EditText id;
+    private EditText password;
+    private Button login;
+    private Button signUp;
 
     private FirebaseAuth mAuth;
+    private FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,10 +32,84 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         mAuth = FirebaseAuth.getInstance();
-        //로그인 버튼 클릭 함수
+        user = mAuth.getCurrentUser();
+        if(user != null){ //로그인 돼있을 때
+            Intent mainIntent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(mainIntent);
+        }
+        else {
+
+            findView();
+            login.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String idText, passwordText;
+                    idText = id.getText().toString();
+                    passwordText = password.getText().toString();
+                    compare(idText, passwordText);
+                }
+            });
+
+            signUp.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getApplicationContext(), Register.class);
+                    startActivity(intent);
+                }
+            });
+        }
     }
+    //onCreate 끝~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+//    @Override
+//    public boolean onKey(View v, int keyCode, KeyEvent event) {
+//        if(keyCode == KeyEvent.KEYCODE_ENTER){
+//            switch(v.getId()){
+//                case R.id.id:
+//                    break;
+//                case R.id.password:
+//                    break;
+//            }
+//            return true;
+//        }
+//        return false;
+//    }
+
+    private void findView(){
+        id = findViewById(R.id.id);
+        password = findViewById(R.id.password);
+        login = findViewById(R.id.login);
+        signUp = findViewById(R.id.signUp);
+    }
+
+    private boolean compare(String idText, String passwordText) {
+        mAuth.signInWithEmailAndPassword(idText, passwordText)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+//                            Log.d(TAG, "signInWithEmail:success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            finish();
+//                            updateUI(user);
+                        } else {
+                            // If sign in fails, display a message to the user.
+//                            Log.w(TAG, "signInWithEmail:failure", task.getException());
+                            Toast.makeText(LoginActivity.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                            id.setText(null);
+                            password.setText(null);
+//                            updateUI(null);
+                        }
+                    }
+                });
+        return id.equals("a");
+    }
+
+
     /*
-     public void signin(View view){
+     public void signUp(View view){
         String email = signinEmail.getText().toString();
         String password = signinPassowrd.getText().toString();
     }
