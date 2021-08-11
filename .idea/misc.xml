@@ -4,9 +4,14 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/USER/Documents/GitHub/trip_for_everyone/app/src/main/res/layout/activity_login.xml" value="0.223731884057971" />
+        <entry key="app/src/main/res/layout/activity_card_news.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/activity_card_news_acitivy.xml" value="0.15353260869565216" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.18541666666666667" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.18541666666666667" />
         <entry key="app/src/main/res/layout/activity_register.xml" value="0.18541666666666667" />
+        <entry key="app/src/main/res/layout/fragment_page1.xml" value="0.16259057971014493" />
+        <entry key="app/src/main/res/layout/fragment_page2.xml" value="0.15353260869565216" />
+        <entry key="app/src/main/res/layout/fragment_page3.xml" value="0.15353260869565216" />
       </map>
     </option>
   </component>
