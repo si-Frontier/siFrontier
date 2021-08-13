@@ -10,6 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
         android:background="@color/purple_500"
         android:text="Page2" />
 

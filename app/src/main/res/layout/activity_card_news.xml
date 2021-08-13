@@ -7,6 +7,10 @@
     tools:context=".CardNewsActivity"
     android:orientation="vertical">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:orientation="vertical">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,8 +20,13 @@
     <androidx.viewpager2.widget.ViewPager2
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="400sp"
-        android:layout_marginLeft="40sp"
-        android:layout_marginRight="40sp"
+        android:layout_marginBottom="100dp"
+        android:clipToPadding="false"
+        android:clipChildren="false"
+        android:layout_gravity="bottom"
         android:id="@+id/viewPager"/>
+    </LinearLayout>
+<!--        android:layout_marginLeft="40dp"-->
+<!--        android:layout_marginRight="40dp"-->
+
 </LinearLayout>
