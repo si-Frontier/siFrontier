@@ -27,6 +27,22 @@ public class CardNewsActivity extends FragmentActivity {
         pager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
         final float pageMargin= 20;
         final float pageOffset = 20;
+        pager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                super.onPageScrolled(position, positionOffset, positionOffsetPixels);
+                if (positionOffsetPixels == 0) {
+                    pager.setCurrentItem(position);
+                }
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+//                mIndicator.animatePageSelected(position%num_page);
+            }
+
+        });
 
         pager.setPageTransformer(new ViewPager2.PageTransformer() {
             @Override
