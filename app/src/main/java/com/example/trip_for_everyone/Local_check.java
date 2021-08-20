@@ -10,6 +10,8 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +20,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 
 public class Local_check extends AppCompatActivity{
@@ -53,6 +58,9 @@ public class Local_check extends AppCompatActivity{
 
                 double latitude = gpsTracker.getLatitude();
                 double longitude = gpsTracker.getLongitude();
+
+                String address = getCurrentAddress(latitude,longitude);
+                textView1.setText(address);
 
                 Toast.makeText(Local_check.this, "현재위치 \n위도 " + latitude + "\n경도 " + longitude, Toast.LENGTH_LONG).show();
             }
@@ -150,6 +158,36 @@ public class Local_check extends AppCompatActivity{
 
         }
 
+    }
+
+    public String getCurrentAddress(double latiude, double longitude){
+        //지오코더 gps 주소 변환
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+
+        List<Address> addresses;
+
+        try{
+            addresses = geocoder.getFromLocation(
+                    latiude,
+                    longitude,
+                    7);
+
+        }catch (IOException ioException){
+            //네트워크 문제
+            Toast.makeText(this, "지오코더 서비스 사용불가", Toast.LENGTH_LONG).show();
+            return "지오코더 서브시 사용불가";
+        }catch (IllegalArgumentException illegalArgumentException){
+            Toast.makeText(this, "잘못된 GPS좌표", Toast.LENGTH_LONG).show();
+            return "잘못된 GPS 좌표";
+        }
+
+        if(addresses == null || addresses.size() == 0){
+            Toast.makeText(this, "주소 미발견", Toast.LENGTH_LONG).show();
+            return "주소 미발견";
+        }
+
+        Address address = addresses.get(0);
+        return address.getAddressLine(0).toString()+"\n";
     }
 
 

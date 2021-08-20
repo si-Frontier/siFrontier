@@ -25,14 +25,13 @@
         <uses-library android:name="com.google.android.maps" />
         <activity
             android:name=".Local_check">
-
-        </activity>
-        <activity android:name=".CardNewsActivity">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".CardNewsActivity">
+
             <!-- android:exported="true" -->
         </activity>
         <activity android:name=".LoginActivity">
