@@ -24,6 +24,7 @@ public class LoginActivity extends AppCompatActivity /*implements View.OnKeyList
 
     private FirebaseAuth mAuth;
     private FirebaseUser user;
+    boolean success;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,32 +33,32 @@ public class LoginActivity extends AppCompatActivity /*implements View.OnKeyList
 
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
-        if(user != null){ //로그인 돼있을 때
-            Intent mainIntent = new Intent(getApplicationContext(), MainActivity.class);
-            startActivity(mainIntent);
-        }
-        else {
 
-            findView();
-            login.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String idText, passwordText;
-                    idText = id.getText().toString();
-                    passwordText = password.getText().toString();
-                    compare(idText, passwordText);
-                }
-            });
-
+        findView();
+           login.setOnClickListener(new View.OnClickListener() {
+               @Override
+               public void onClick(View v) {
+                   String idText, passwordText;
+                   idText = id.getText().toString();
+                   passwordText = password.getText().toString();
+                   if(idText.equals("")||passwordText.equals("")){
+                       Toast.makeText(LoginActivity.this, "아이디와 비밀번호를 입력하세요",
+                               Toast.LENGTH_SHORT).show();
+                   }
+                   else {
+                       compare(idText, passwordText);
+                   }
+               }
+           });
             signUp.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(getApplicationContext(), Register.class);
-                    startActivity(intent);
-                }
+               @Override
+               public void onClick(View view) {
+                   Intent intent = new Intent(getApplicationContext(), Register.class);
+                   startActivity(intent);
+               }
             });
-        }
     }
+
     //onCreate 끝~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 //    @Override
@@ -89,7 +90,7 @@ public class LoginActivity extends AppCompatActivity /*implements View.OnKeyList
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
 //                            Log.d(TAG, "signInWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
+                            success = true;
                             finish();
 //                            updateUI(user);
                         } else {
@@ -99,11 +100,12 @@ public class LoginActivity extends AppCompatActivity /*implements View.OnKeyList
                                     Toast.LENGTH_SHORT).show();
                             id.setText(null);
                             password.setText(null);
+                            success = false;
 //                            updateUI(null);
                         }
                     }
                 });
-        return id.equals("a");
+        return success;
     }
 
 
