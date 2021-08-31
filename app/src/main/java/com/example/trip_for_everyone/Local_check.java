@@ -35,6 +35,7 @@ public class Local_check extends AppCompatActivity{
     private static final int PERMISSIONS_REQUEST_CODE = 100;
     String[] REQUIRED_PERMISSIONS = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
 
+    public static String address;
 
 
     @Override
@@ -59,7 +60,7 @@ public class Local_check extends AppCompatActivity{
                 double latitude = gpsTracker.getLatitude();
                 double longitude = gpsTracker.getLongitude();
 
-                String address = getCurrentAddress(latitude,longitude);
+                address = getCurrentAddress(latitude,longitude);
                 textView1.setText(address);
 
                 Toast.makeText(Local_check.this, "현재위치 \n위도 " + latitude + "\n경도 " + longitude, Toast.LENGTH_LONG).show();

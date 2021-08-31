@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -15,14 +16,21 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
-
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
 
 
 //회원가입
 public class Register extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
+    private FirebaseDatabase mDatabase;
+    private FirebaseStorage mStorage;
+
+    //local_check에서 확인한 주소값 가져오기
+    final static Local_check localCheck = new Local_check();
+    private static String address = localCheck.address;
 
 
     @Override
@@ -30,6 +38,16 @@ public class Register extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance();
+        mStorage = FirebaseStorage.getInstance();
+        Button local_check = (Button) findViewById(R.id.local_check);
+        local_check.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), Local_check.class);
+                startActivity(intent);
+            }
+        });
         findViewById(R.id.check).setOnClickListener(onClickListener);
     }
 
@@ -49,6 +67,7 @@ public class Register extends AppCompatActivity {
 
     private  void signUp(){
 
+        String name = ((EditText)findViewById(R.id.user_name)).getText().toString();
         String id = ((EditText)findViewById(R.id.user_id)).getText().toString();
         String password = ((EditText)findViewById(R.id.user_password)).getText().toString();
         String passwordCheck = ((EditText)findViewById(R.id.user_password_check)).getText().toString();
@@ -62,18 +81,29 @@ public class Register extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
+                            final String uid = task.getResult().getUser().getUid();
                             FirebaseUser user = mAuth.getCurrentUser();
+                            //UserRegister userRegister = new UserRegister(name, address);
+                            //mDatauser.child("users").child(id).setValue(userRegister);
                             user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     //요청 메일 전송이 완료되면 해당 매소드 발생
+                                    UserRegister userRegister = new UserRegister();
+
+                                    userRegister.userName = name;
+                                    userRegister.uid = uid;
+                                    userRegister.address = address;
+
+                                    //database 저장
+                                    mDatabase.getReference().child("users").child(uid).setValue(userRegister);
                                     Toast.makeText(Register.this, "메일발송완료!", Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                                     startActivity(intent);
 
                                 }
                             });
-                            //Toast.makeText(Register.this, "회원가입 성공했습니다", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Register.this, "회원가입 성공했습니다", Toast.LENGTH_SHORT).show();
                         }
                         else{
                             if(task.getException().toString() !=null){
