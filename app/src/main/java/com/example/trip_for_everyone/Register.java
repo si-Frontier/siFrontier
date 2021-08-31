@@ -41,15 +41,34 @@ public class Register extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance();
         mStorage = FirebaseStorage.getInstance();
         Button local_check = (Button) findViewById(R.id.local_check);
+        findViewById(R.id.check).setOnClickListener(onClickListener);
+
         local_check.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), Local_check.class);
-                startActivity(intent);
+                startActivityForResult(intent,1000);
             }
         });
-        findViewById(R.id.check).setOnClickListener(onClickListener);
+
+
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+            if (resultCode == RESULT_OK) {
+                Toast.makeText(Register.this, "Result: " + data.getStringExtra("address"), Toast.LENGTH_SHORT).show();
+            } else {   // RESULT_CANCEL
+                Toast.makeText(Register.this, "Failed", Toast.LENGTH_SHORT).show();
+            }
+
+    }
+
+
+
+
 
     View.OnClickListener onClickListener = new View.OnClickListener(){
         @Override

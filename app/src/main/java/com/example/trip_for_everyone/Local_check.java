@@ -64,6 +64,11 @@ public class Local_check extends AppCompatActivity{
                 textView1.setText(address);
 
                 Toast.makeText(Local_check.this, "현재위치 \n위도 " + latitude + "\n경도 " + longitude, Toast.LENGTH_LONG).show();
+
+                Intent resultIntent = new Intent();
+                resultIntent.putExtra("address", address);
+                setResult(RESULT_OK, resultIntent);
+                finish();
             }
         });
 
