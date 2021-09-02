@@ -29,8 +29,9 @@ public class Register extends AppCompatActivity {
     private FirebaseStorage mStorage;
 
     //local_check에서 확인한 주소값 가져오기
-    final static Local_check localCheck = new Local_check();
-    private static String address = localCheck.address;
+   // final static Local_check localCheck = new Local_check();
+   // private static String address = localCheck.address;
+    public String address;
 
 
     @Override
@@ -59,6 +60,7 @@ public class Register extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
             if (resultCode == RESULT_OK) {
+               address = data.getStringExtra("address");
                 Toast.makeText(Register.this, "Result: " + data.getStringExtra("address"), Toast.LENGTH_SHORT).show();
             } else {   // RESULT_CANCEL
                 Toast.makeText(Register.this, "Failed", Toast.LENGTH_SHORT).show();
