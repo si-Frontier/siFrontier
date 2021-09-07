@@ -3,6 +3,7 @@ package com.example.trip_for_everyone;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -25,14 +26,19 @@ public class LoginActivity extends AppCompatActivity /*implements View.OnKeyList
     private FirebaseAuth mAuth;
     private FirebaseUser user;
     boolean success;
-
+    public static Activity loginActivity;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        loginActivity = LoginActivity.this;
 
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
+        if(user!=null){
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(intent);
+        }
 
         findView();
            login.setOnClickListener(new View.OnClickListener() {
@@ -90,8 +96,12 @@ public class LoginActivity extends AppCompatActivity /*implements View.OnKeyList
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
 //                            Log.d(TAG, "signInWithEmail:success");
+                            Toast.makeText(LoginActivity.this, "Authentication succes.",
+                                    Toast.LENGTH_SHORT).show();
                             success = true;
-                            finish();
+                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            startActivity(intent);
+//                            finish();
 //                            updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.

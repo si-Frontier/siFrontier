@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/password"
         android:layout_marginHorizontal="50sp"
-
+        android:inputType="textPassword"
         android:singleLine="true"
         android:hint="비밀번호를 입력하세요"/>
     <LinearLayout
