@@ -26,7 +26,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.0.0'
+        classpath 'com.android.tools.build:gradle:7.0.1'
         classpath 'com.google.gms:google-services:4.3.10'
 
 
@@ -43,5 +43,5 @@ allprojects {
 }
 
 dependencies {
-    implementation 'com.google.firebase:firebase-firestore:23.0.3'
+    implementation 'com.google.firebase:firebase-firestore:24.0.0'
 }

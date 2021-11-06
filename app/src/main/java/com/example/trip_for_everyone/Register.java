@@ -60,8 +60,9 @@ public class Register extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
             if (resultCode == RESULT_OK) {
+                //Local_check.java 주소값 가져와서 저장
                address = data.getStringExtra("address");
-                Toast.makeText(Register.this, "Result: " + data.getStringExtra("address"), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(Register.this, "Result: " + data.getStringExtra("address"), Toast.LENGTH_SHORT).show();
             } else {   // RESULT_CANCEL
                 Toast.makeText(Register.this, "Failed", Toast.LENGTH_SHORT).show();
             }
